@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="clock" content="discription">
+  <title>Clock</title>
+  <style>
+    body {
+      margin: 0;
+      height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: rgb(0, 0, 95);
+      font-family: Arial, sans-serif;
+    }
+
+    .wrap {
+      text-align: center;
+      color: rgb(222, 144, 0);
+    }
+
+    .analog {
+      width: 260px;
+      height: 260px;
+      border-radius: 50%;
+      border: 6px solid rgb(222, 144, 0);
+      position: relative;
+      margin: 20px auto;
+    }
+
+    .hand {
+      position: absolute;
+      left: 50%;
+      top: 50%;
+      transform-origin: 50% 100%;
+      transform: translate(-50%, -100%) rotate(0deg);
+      border-radius: 6px;
+      background: rgb(222, 144, 0);
+    }
+
+    .hand.hour {
+      width: 8px;
+      height: 70px;
+      z-index: 3;
+    }
+
+    .hand.minute {
+      width: 6px;
+      height: 100px;
+      z-index: 2;
+    }
+
+    .hand.second {
+      width: 3px;
+      height: 110px;
+      z-index: 4;
+    }
+
+    .center-dot {
+      position: absolute;
+      width: 14px;
+      height: 14px;
+      border-radius: 50%;
+      background: rgb(222, 144, 0);
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+    }
+
+    .digital {
+      margin-top: 20px;
+      font-size: 28px;
+      font-family: "Courier New", monospace;
+      letter-spacing: 2px;
+    }
+
+    .date {
+      margin-top: 6px;
+      font-size: 16px;
+    }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <div class="analog">
+      <div class="hand hour" id="hour"></div>
+      <div class="hand minute" id="minute"></div>
+      <div class="hand second" id="second"></div>
+      <div class="center-dot"></div>
+    </div>
+    <div class="digital" id="time">00:00:00</div>
+    <div class="date" id="date">Loading...</div>
+  </div>
+
+  <script>
+    function updateClock() {
+      const now = new Date();
+      const seconds = now.getSeconds();
+      const minutes = now.getMinutes();
+      const hours = now.getHours();
+
+      const secDeg = seconds * 6;
+      const minDeg = minutes * 6 + seconds * 0.1;
+      const hourDeg = hours * 30 + minutes * 0.5;
+
+      document.getElementById('second').style.transform =
+        `translate(-50%, -100%) rotate(${secDeg}deg)`;
+      document.getElementById('minute').style.transform =
+        `translate(-50%, -100%) rotate(${minDeg}deg)`;
+      document.getElementById('hour').style.transform =
+        `translate(-50%, -100%) rotate(${hourDeg}deg)`;
+
+      document.getElementById('time').textContent =
+        now.toLocaleTimeString();
+      document.getElementById('date').textContent =
+        now.toDateString();
+    }
+
+    setInterval(updateClock, 1000);
+    updateClock();
+  </script>
+</body>
+</html>
